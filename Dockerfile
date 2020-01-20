@@ -1,8 +1,11 @@
 # build stage
 FROM node:lts-alpine as build-stage
+ARG GITHUB_TOKEN
 WORKDIR /app
 COPY package*.json .npmrc ./
-RUN npm install
+RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc && \
+    npm install --production && \
+    rm -f .npmrc
 COPY . .
 RUN npm run build
 
