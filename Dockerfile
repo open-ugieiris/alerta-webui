@@ -3,7 +3,8 @@ FROM node:lts-alpine as build-stage
 ARG GITHUB_TOKEN
 WORKDIR /app
 COPY package*.json .npmrc ./
-RUN echo "//npm.pkg.github.com/:_authToken=$GITHUB_TOKEN" >> .npmrc && \
+RUN echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc && \
+    npm config get && \
     npm install --production && \
     rm -f .npmrc
 COPY . .
